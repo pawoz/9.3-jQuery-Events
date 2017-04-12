@@ -1,14 +1,13 @@
-//carousel
+ //carousel
 $(function(){
 	var carouselList = $('#carousel ul'),
 		prevBtn = $('#prevbtn'),
-		nextBtn = $('#nextbtn');
-	
-//interval
-	setInterval(function changeSlide() {
-		carouselList.animate({'marginLeft':-400}, 500, moveFirstSlide);	
-	}, 2500);
-	
+		nextBtn = $('#nextbtn'),
+		interval;
+ 	
+ //interval
+	interval = setInterval(changeOneSlideFwd, 2000);
+ 	
 	function moveFirstSlide() {
 		var firstItem = carouselList.find('li:first'),
 			lastItem = carouselList.find('li:last');
@@ -16,21 +15,16 @@ $(function(){
 			carouselList.css({marginLeft: 0});
 	};
 	prevBtn.on('click', changeOneSlidePrev);
-	
-	function changeOneSlidePrev() {
+ 		function changeOneSlidePrev() {		
 		var firstItem = carouselList.find('li:first'),
 			lastItem = carouselList.find('li:last');
-			firstItem.before(lastItem);
-			carouselList.css({marginRight: 0});
-			carouselList.animate({'marginRight':400}, 500);
+		clearInterval(interval);	
+		firstItem.before(lastItem);
+		carouselList.css({marginLeft: -400});
+		carouselList.animate({marginLeft: 0}, 500);
 	};
 	nextBtn.on('click', changeOneSlideFwd);
-	
-	function changeOneSlideFwd() {
-		var firstItem = carouselList.find('li:first'),
-			lastItem = carouselList.find('li:last');
-			lastItem.after(firstItem);
-			carouselList.css({marginLeft: 0});
-			carouselList.animate({'marginLeft':-400}, 500);
+ 		function changeOneSlideFwd() {
+		carouselList.animate({marginLeft: -400}, 500, moveFirstSlide);
 	};
 });
